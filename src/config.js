@@ -3,6 +3,7 @@ require('dotenv').config()
 const config = {
     PORT: process.env.PORT || 9000,
     nodeEnv: process.env.NODE_ENV || 'development',  //Desarrollo, Testing, Producción
+    jwtSecret: process.env.JWT_SECRET,
     db: {
         host: process.env.HOST || 'localhost',
         username: process.env.DB_USER || 'postgres',
