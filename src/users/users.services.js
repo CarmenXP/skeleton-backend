@@ -1,3 +1,4 @@
+const { response } = require('express')
 const userControllers = require('./users.controllers')
 
 const allUsers = (req, res) =>{
@@ -100,21 +101,29 @@ const getMyUser = (req, res) => {
             res.status(400).json({message: err.message})
         })
 }
-
+//**********HOMEWORK*************/
+//services to update and delete
 const updateMyUser = (req, res) => {
     const id = req.user.id
     const {firstName, lastName, phone, birthday, email, password} = req.body
     userControllers.updateUser(id, {firstName, lastName, phone, birthday, email, password})
-        .then()
-        .catch()
+        .then(() => {
+                res.status(200).json({ message: "Your user was modified"})
+           
+        })
+        .catch( err => {
+            res.status(400).json({message: err.message})
+        })
 
 }
 
 const deleteMyUser = (req, res) => {
     const id = req.user.id
     userControllers.deleteUser(id)
-        .then()
-        .catch()
+        .then( () =>{
+            res.status(204).json({message: "Your user was deleted"})
+        })
+        .catch(res.status(400).json({message: err.message}))
     
 }
 
