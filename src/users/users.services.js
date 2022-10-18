@@ -105,8 +105,8 @@ const getMyUser = (req, res) => {
 //services to update and delete
 const updateMyUser = (req, res) => {
     const id = req.user.id
-    const {firstName, lastName, phone, birthday, email, password} = req.body
-    userControllers.updateUser(id, {firstName, lastName, phone, birthday, email, password})
+    const {firstName, lastName, phone, birthday, gender} = req.body
+    userControllers.updateUser(id, {firstName, lastName, phone, birthday, gender})
         .then(() => {
                 res.status(200).json({ message: "Your user was modified"})
            
@@ -116,16 +116,21 @@ const updateMyUser = (req, res) => {
         })
 
 }
+// 2 types of delete
+// 1 .- By admin  2.- by myself
 
 const deleteMyUser = (req, res) => {
     const id = req.user.id
-    userControllers.deleteUser(id)
+
+    usersController.updateUser(id, {status: "inactive"})
         .then( () =>{
             res.status(204).json({message: "Your user was deleted"})
         })
-        .catch(res.status(400).json({message: err.message}))
-    
+        .catch( err => {
+            res.status(400).json({message: err.message})
+        })      
 }
+
 
 module.exports = {
     allUsers,
